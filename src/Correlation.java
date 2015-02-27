@@ -1,21 +1,22 @@
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-
 public class Correlation {
-	private PrintWriter pw ;
-	public void openFileOutput(String str) throws FileNotFoundException{
+	private PrintWriter pw;
+
+	public void openFileOutput(String str) throws FileNotFoundException {
 		pw = new PrintWriter(new File(str));
 	}
-	public double methodForString(BufferedImage img, int index){
+
+	public double methodForOneString(BufferedImage img, int index) {
 		int height = img.getHeight();
 		int width = img.getWidth();
 		double sumAverageCorrelation = 0;
-		Main.println("Image "+index+"Height = " + height + " Width= " + width + "");
+		Main.println("Download Image " + index + "Height = " + height
+				+ " Width= " + width + "");
 		for (int i = 0; i < height; i++) {
 			ArrayList<Integer> bit = new ArrayList<>();
 			for (int j = 0; j < width; j++) {
@@ -25,19 +26,62 @@ public class Correlation {
 			double d = calculationOfCorrelation(bit);
 			sumAverageCorrelation += d;
 		}
-		pw.println("Average Correlation " + index + "image = "
+		pw.println("Average Correlation " + index + " image = "
 				+ sumAverageCorrelation / height);
-	
-		return sumAverageCorrelation/height;
+
+		return sumAverageCorrelation / height;
 	}
+
+	public double methodForDiagonalOneString(BufferedImage img, int index) {
+		int height = img.getHeight();
+		int width = img.getWidth();
+		double sumAverageCorrelation = 0;
+		Main.println("Download Image " + index + "Height = " + height
+				+ " Width= " + width + "");
+		ArrayList<Integer> bit = new ArrayList<>();
+		int pix = 0;
+		int i=0;
+		int len = 0;
+		if ( height<width) len = height; else len = width; 
+		for (i = 0; i < len; i++) {
+			pix = img.getRGB(i, i);
+			bit.add(convertInt(pix));
+		}
+		double d = calculationOfCorrelation(bit);
+		sumAverageCorrelation += d;
+		pw.println(" Average Correlation for " + index + " image = "
+				+ sumAverageCorrelation);
+		return sumAverageCorrelation;
+	}
+	public double methodForOneColumn(BufferedImage img, int index) {
+		int height = img.getHeight();
+		int width = img.getWidth();
+		double sumAverageCorrelation = 0;
+		Main.println("Download Image " + index + "Height = " + height
+				+ " Width= " + width + "");
+		for (int i = 0; i < width; i++) {
+			ArrayList<Integer> bit = new ArrayList<>();
+			for (int j = 0; j < height; j++) {
+				int pix = img.getRGB(i, j);
+				bit.add(convertInt(pix));
+			}
+			double d = calculationOfCorrelation(bit);
+			sumAverageCorrelation += d;
+		}
+		pw.println("Average Correlation " + index + " image = "
+				+ sumAverageCorrelation / width);
+
+		return sumAverageCorrelation / height;
+	}
+
 	public void close() {
 		pw.close();
 	}
 
-	private  int convertInt(int pix) {
+	private int convertInt(int pix) {
 		return Integer.valueOf(convert(pix));
 	}
-	
+
 	private static String convert(int pix) {
 		String hex = Long.toHexString(pix);// Переводим из 10 в 16
 		char s = hex.charAt(hex.length() - 1); // Берем последний байт.
@@ -49,7 +93,8 @@ public class Correlation {
 		return String.valueOf(lastBit);
 		// return "";
 	}
-	private  double calculationOfCorrelation(ArrayList<Integer> bit) {
+
+	private double calculationOfCorrelation(ArrayList<Integer> bit) {
 		/*
 		 * Получаем массив значений. Теперь надо считать по формуле коэффициента
 		 * линейной корреляции. С = (x-x')(y-y')/sqrt(C(x-x')(x-x') *
@@ -75,14 +120,15 @@ public class Correlation {
 		return coefficientCorrelation;
 	}
 
-	private  int sumAverage(ArrayList<Integer> a) {
+	private int sumAverage(ArrayList<Integer> a) {
 		int s = 0;
 		for (Integer ar : a)
 			s += ar;
 		return s / a.size();
 	}
+
 	public void printFile(String string) {
-		pw.println(string);	
+		pw.println(string);
 	}
 
 }

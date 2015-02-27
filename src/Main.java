@@ -2,12 +2,27 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class Main extends Method {
+public class Main extends Analysis {
+
+	private static final int KOL_BMP = 11;
+	private static final int KOL_JPEG = 21;
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
+
 		//forJpeg(21);
-		forBmp(10);
+		try {
+//			forBmp(11, METHOD.DIAGONAL_ONE);
+//		    forJpeg(21, METHOD.DIAGONAL_ONE);
+//			forBmp(11, METHOD.STRING_ONE);
+//			forJpeg(21,METHOD.STRING_ONE);
+			forBmp(KOL_BMP, METHOD.COLUMN_ONE);
+			forJpeg(KOL_JPEG, METHOD.COLUMN_ONE);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	public static void print(Object arg) {
