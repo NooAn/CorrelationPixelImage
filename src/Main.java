@@ -1,28 +1,48 @@
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Main extends Analysis {
 
 	private static final int KOL_BMP = 11;
-	private static final int KOL_JPEG = 21;
+	private static final int KOL_JPEG = 22;
+	private static final int KOL_GIF = 10;
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
-
-		//forJpeg(21);
 		try {
-//			forBmp(11, METHOD.DIAGONAL_ONE);
-//		    forJpeg(21, METHOD.DIAGONAL_ONE);
-//			forBmp(11, METHOD.STRING_ONE);
-//			forJpeg(21,METHOD.STRING_ONE);
-			forBmp(KOL_BMP, METHOD.COLUMN_ONE);
-			forJpeg(KOL_JPEG, METHOD.COLUMN_ONE);
+			bmp();
+		//	jpeg();
+			gif();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
 
+	/**
+	 * @throws IOException
+	 */
+	public static void gif() throws IOException {
+		forGif(KOL_GIF, METHOD.COLUMN_ONE);
+		forGif(KOL_GIF,METHOD.DIAGONAL_ONE);
+		forGif(KOL_GIF,METHOD.STRING_ONE);
+	}
+
+	/**
+	 * @throws IOException
+	 */
+	public static void bmp() throws IOException {
+		forBmp(KOL_BMP, METHOD.DIAGONAL_ONE);
+		forBmp(KOL_BMP, METHOD.STRING_ONE);
+		forBmp(KOL_BMP, METHOD.COLUMN_ONE);
+	}
+
+	/**
+	 * @throws IOException
+	 */
+	public static void jpeg() throws IOException {
+		forJpeg(KOL_JPEG,METHOD.STRING_ONE);
+		forJpeg(KOL_JPEG, METHOD.DIAGONAL_ONE);
+		forJpeg(KOL_JPEG, METHOD.COLUMN_ONE);
 	}
 
 	public static void print(Object arg) {

@@ -15,8 +15,9 @@ public class Correlation {
 		int height = img.getHeight();
 		int width = img.getWidth();
 		double sumAverageCorrelation = 0;
-		Main.println("Download Image " + index + "Height = " + height
+		Main.println("Download Image " + index + "  Height = " + height
 				+ " Width= " + width + "");
+		//Main.print(img.getRGB(width, height));
 		for (int i = 0; i < height; i++) {
 			ArrayList<Integer> bit = new ArrayList<>();
 			for (int j = 0; j < width; j++) {
@@ -36,7 +37,7 @@ public class Correlation {
 		int height = img.getHeight();
 		int width = img.getWidth();
 		double sumAverageCorrelation = 0;
-		Main.println("Download Image " + index + "Height = " + height
+		Main.println("Download Image " + index + "  Height = " + height
 				+ " Width= " + width + "");
 		ArrayList<Integer> bit = new ArrayList<>();
 		int pix = 0;
@@ -49,7 +50,7 @@ public class Correlation {
 		}
 		double d = calculationOfCorrelation(bit);
 		sumAverageCorrelation += d;
-		pw.println(" Average Correlation for " + index + " image = "
+		pw.println("Average Correlation for " + index + " image = "
 				+ sumAverageCorrelation);
 		return sumAverageCorrelation;
 	}
@@ -57,7 +58,7 @@ public class Correlation {
 		int height = img.getHeight();
 		int width = img.getWidth();
 		double sumAverageCorrelation = 0;
-		Main.println("Download Image " + index + "Height = " + height
+		Main.println("Download Image " + index + "  Height = " + height
 				+ " Width= " + width + "");
 		for (int i = 0; i < width; i++) {
 			ArrayList<Integer> bit = new ArrayList<>();
@@ -67,11 +68,12 @@ public class Correlation {
 			}
 			double d = calculationOfCorrelation(bit);
 			sumAverageCorrelation += d;
-		}
-		pw.println("Average Correlation " + index + " image = "
-				+ sumAverageCorrelation / width);
 
-		return sumAverageCorrelation / height;
+		}
+		double c = sumAverageCorrelation / (width);
+		pw.println("Average Correlation " + index + " image = "
+				+ c);
+		return c;
 	}
 
 	public void close() {
@@ -115,8 +117,10 @@ public class Correlation {
 			sumAverageX += (x - sum_x) * (x - sum_x);
 			sumAverageY += (y - sum_y) * (y - sum_y);
 		}
+		//pw.println(" cov= "+sumCovXY+" Sqrt = "+Math.sqrt((double) (sumAverageY * sumAverageX))+" y = "+sumAverageY +" x ="+ sumAverageX);
 		coefficientCorrelation = (sumCovXY / Math
 				.sqrt((double) (sumAverageY * sumAverageX)));
+		if ( Double.isNaN(coefficientCorrelation)) coefficientCorrelation=0.1;
 		return coefficientCorrelation;
 	}
 
