@@ -15,7 +15,7 @@ public class Correlation {
 		int height = img.getHeight();
 		int width = img.getWidth();
 		double sumAverageCorrelation = 0;
-		Main.println("Download Image " + index + "  Height = " + height
+		Main.println("Processing Image " + index + "  Height = " + height
 				+ " Width= " + width + "");
 		//Main.print(img.getRGB(width, height));
 		for (int i = 0; i < height; i++) {
@@ -37,7 +37,7 @@ public class Correlation {
 		int height = img.getHeight();
 		int width = img.getWidth();
 		double sumAverageCorrelation = 0;
-		Main.println("Download Image " + index + "  Height = " + height
+		Main.println("Processing Image " + index + "  Height = " + height
 				+ " Width= " + width + "");
 		ArrayList<Integer> bit = new ArrayList<>();
 		int pix = 0;
@@ -50,7 +50,7 @@ public class Correlation {
 		}
 		double d = calculationOfCorrelation(bit);
 		sumAverageCorrelation += d;
-		pw.println("Average Correlation for " + index + " image = "
+		pw.println("Average Correlation for " + index + " for image = "
 				+ sumAverageCorrelation);
 		return sumAverageCorrelation;
 	}
@@ -58,7 +58,7 @@ public class Correlation {
 		int height = img.getHeight();
 		int width = img.getWidth();
 		double sumAverageCorrelation = 0;
-		Main.println("Download Image " + index + "  Height = " + height
+		Main.println("Processing Image " + index + "  Height = " + height
 				+ " Width= " + width + "");
 		for (int i = 0; i < width; i++) {
 			ArrayList<Integer> bit = new ArrayList<>();
@@ -71,7 +71,7 @@ public class Correlation {
 
 		}
 		double c = sumAverageCorrelation / (width);
-		pw.println("Average Correlation " + index + " image = "
+		pw.println("Average Correlation " + index + " for image = "
 				+ c);
 		return c;
 	}

@@ -12,16 +12,19 @@ public class Analysis {
 	private static Correlation correlation;
 
 	public static void forJpeg(int kolImage, METHOD method) throws IOException {
-		calculationJpeg("Out File Method " + method.getValue() + " ForJPEG.txt",
+		calculationJpeg("Out File For JPEG Method " + method.getValue() + ".txt",
 				kolImage, method);
 	}
-
+	public static void forJpeg(int kolImage, METHOD method, boolean stego) throws IOException {
+		calculation("Out File For Stego JPEG Method " + method.getValue() + ".txt",
+				kolImage,"stego_image_jpg/",".jpg", method);
+	}
 	public static void forBmp(int kolImage, METHOD method) throws IOException {
-		calculationBmp("Out File Method" + method.getValue() + " ForBmp.txt",
+		calculationBmp("Out File For Bmp Method" + method.getValue() + ".txt",
 				kolImage, method);
 	}
 	public static void forGif(int kolImage, METHOD method) throws IOException {
-		calculationGif("Out File Method "+method.getValue()+" For Gif.txt",kolImage, method);
+		calculationGif("Out File For Gif Method "+method.getValue()+".txt",kolImage, method);
 	}
 
 	private static void calculationGif(String string, int kolImage,
@@ -48,6 +51,7 @@ public class Analysis {
 		correlation.openFileOutput(outFileName);
 		for (int k = 0; k < kolImage; k++) {
 			BufferedImage img = null;
+			Main.print(folder + k + formatImage);
 			img = ImageIO.read(new File(folder + k + formatImage));
 			switch (method) {
 			case DIAGONAL_ONE:

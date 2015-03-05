@@ -1,0 +1,5 @@
+Average Correlation 0 image = 0.687909744436024
+Average Correlation 1 image = 0.7868713804589644
+Average Correlation 2 image = 0.662993407518805
+Average Correlation 3 image = 0.7454107037718085
+Average coefficient from 4 images = 0.7207963090464005
