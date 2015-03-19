@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.function.BinaryOperator;
 
 public class Correlation {
 	private PrintWriter pw;
@@ -11,7 +12,7 @@ public class Correlation {
 		pw = new PrintWriter(new File(str));
 	}
 
-	public double methodForOneString(BufferedImage img, int index) {
+	public double methodForOneString(BufferedImage img, String index) {
 		int height = img.getHeight();
 		int width = img.getWidth();
 		double sumAverageCorrelation = 0;
@@ -33,7 +34,7 @@ public class Correlation {
 		return sumAverageCorrelation / height;
 	}
 
-	public double methodForDiagonalOneString(BufferedImage img, int index) {
+	public double methodForDiagonalOneString(BufferedImage img, String index) {
 		int height = img.getHeight();
 		int width = img.getWidth();
 		double sumAverageCorrelation = 0;
@@ -54,7 +55,7 @@ public class Correlation {
 				+ sumAverageCorrelation);
 		return sumAverageCorrelation;
 	}
-	public double methodForOneColumn(BufferedImage img, int index) {
+	public double methodForOneColumn(BufferedImage img, String index) {
 		int height = img.getHeight();
 		int width = img.getWidth();
 		double sumAverageCorrelation = 0;
@@ -79,22 +80,64 @@ public class Correlation {
 	public void close() {
 		pw.close();
 	}
-
-	private int convertInt(int pix) {
-		return Integer.valueOf(convert(pix));
+/**
+ * Функция возвращает последний бит пикселя
+ * @param pix
+ * @return int last bit
+ */
+	public static int convertInt(int pix) {
+		return Integer.valueOf(convertLastBit(pix));
 	}
 
-	private static String convert(int pix) {
-		String hex = Long.toHexString(pix);// Переводим из 10 в 16
-		char s = hex.charAt(hex.length() - 1); // Берем последний байт.
-		String lastHex = String.valueOf(s);
-		int x = Integer.parseInt(lastHex, 16);
-		String binarLastPixel = Integer.toBinaryString(x); // байт в двоичном
-															// разложении
+	public static String convertLastBit(int pix) {
+		char s = toLastHexByte(pix);
+		String binarLastPixel = binaryByte(s); // байт в двоичном разложении
 		char lastBit = binarLastPixel.charAt(binarLastPixel.length() - 1);
 		return String.valueOf(lastBit);
-		// return "";
 	}
+
+	/**
+	 * @param pix
+	 * @return
+	 */
+	public static char toLastHexByte(int pix) {
+		String hex = Long.toHexString(pix);// Переводим из 10 в 16
+		char s = hex.charAt(hex.length() - 1); // Берем последний байт.		
+		return s;
+	}
+	public static void printBit(int num) {
+		
+	}
+	public static void printHex(int num){
+		String hex = Long.toHexString(num);
+		Main.print(hex);
+	}
+	public static void printLastByte(int num){
+		char s = toLastHexByte(num);
+		Main.print(s);
+	}
+	public static void printBinary(int num){
+		Main.print(binaryByte(toLastHexByte(num)));
+	}
+	public static String binaryStringLastTwoBit(int num ) {
+		//num = pixel
+		char s = toLastHexByte(num);
+		String binarLastPixel = binaryByte(s); // байт в двоичном разложении
+		char lastBit = binarLastPixel.charAt(2);	
+		char preLastBit = binarLastPixel.charAt(1);
+		StringBuilder str = new StringBuilder();
+		str.append(lastBit);
+		str.append(preLastBit);
+		//Main.print(str.toString());
+		return str.toString();
+	}
+	private static String binaryByte(char s){
+		String lastHex = String.valueOf(s);
+		int x = Integer.parseInt(lastHex, 16);//Перевод в 10ную.
+		String binarLastPixel = Integer.toBinaryString(x);
+		return binarLastPixel;
+	}
+	 
 
 	private double calculationOfCorrelation(ArrayList<Integer> bit) {
 		/*

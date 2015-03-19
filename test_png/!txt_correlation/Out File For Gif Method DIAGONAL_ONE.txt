@@ -1,0 +1,6 @@
+Average Correlation for newTest.png for image = 0.6681210650754602
+Average Correlation for newTestBlc.png for image = 0.6681210650754602
+Average Correlation for test1.png for image = 0.6681210650754602
+Average Correlation for test1bl.png for image = 0.5032679738562091
+Average Correlation for test1blc.png for image = 0.9896551724137931
+Average coefficient from 8 images = 0.43716079268704783

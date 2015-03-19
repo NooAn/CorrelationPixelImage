@@ -1,0 +1,2 @@
+Average Correlation Sitest1.png image = 0.680456721325714
+Average coefficient from 2 images = 0.340228360662857

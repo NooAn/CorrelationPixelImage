@@ -1,3 +1,6 @@
+
+https://play.google.com/store/apps/details?id=com.talpro213.steganographyimage
+
 Наблюдения в программе JPHS.
 где с-это метод по столбцам, s-метод по строкам, d-метод по диагонали
 Без скрытого текста:

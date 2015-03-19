@@ -1,34 +1,62 @@
-
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 public class Main extends Analysis {
 
 	private static final int KOL_BMP = 11;
-	private static final int KOL_JPEG = 22;
+	private static final int KOL_JPEG = 2;
 	private static final int KOL_GIF = 10;
 	private static final int KOL_STEGO_JPEG = 4;
 	private static final boolean STEGO = true;
 
 	@SuppressWarnings("resource")
-	public static void main(String[] args) {
-		try {
-		//	bmp();
-		//	jpeg();
-		//	gif();
-			jpegStego();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public static void main(String[] args) throws IOException {
+		// try {
+		// println("Start");
+		// // bmp();
+		// // jpeg();
+		// // gif();
+		// // jpegStego();
+		// // saveJpegOnlyLastBit();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		//saveTxtOnlyLastBit("2", "2");
+//		replaceLastBitTwoImage();
+		//pngCorrelationAll();
+        
+        MD5 md5 = new MD5();                                        
+        System.out.println(md5.getHash("qwert123")); 
+	}
+
+	/**
+	 * @throws IOException
+	 */
+	public static void replaceLastBitTwoImage() throws IOException {
+		Replace replace = new Replace() ;
+		String nameOld="test1.png";
+		String folder="test_png/";
+		String nameNew="test1blc.png";
+		Main.print(folder + nameOld);
+		BufferedImage img = ImageIO.read(new File(folder + nameOld));
+		BufferedImage imageNew = ImageIO.read(new File(folder + nameNew));
+		replace.lastTwoBit(imageNew,replace.byteList(img) );
 	}
 
 	private static void jpegStego() throws IOException {
 		println("String method : ");
-		forJpeg(KOL_STEGO_JPEG,METHOD.STRING_ONE, STEGO);
+		forJpeg(METHOD.STRING_ONE, STEGO);
 		println("Diagonal method : ");
-		forJpeg(KOL_STEGO_JPEG, METHOD.DIAGONAL_ONE, STEGO);
+		forJpeg(METHOD.DIAGONAL_ONE, STEGO);
 		println("column one method");
-		forJpeg(KOL_STEGO_JPEG, METHOD.COLUMN_ONE, STEGO);
-		
+		forJpeg(METHOD.COLUMN_ONE, STEGO);
+
 	}
 
 	/**
@@ -37,8 +65,8 @@ public class Main extends Analysis {
 	public static void gif() throws IOException {
 		println("column one method");
 		forGif(KOL_GIF, METHOD.COLUMN_ONE);
-		forGif(KOL_GIF,METHOD.DIAGONAL_ONE);		
-		forGif(KOL_GIF,METHOD.STRING_ONE);
+		forGif(KOL_GIF, METHOD.DIAGONAL_ONE);
+		forGif(KOL_GIF, METHOD.STRING_ONE);
 	}
 
 	/**
@@ -49,16 +77,19 @@ public class Main extends Analysis {
 		forBmp(KOL_BMP, METHOD.STRING_ONE);
 		forBmp(KOL_BMP, METHOD.COLUMN_ONE);
 	}
+	public static void pngCorrelationAll() throws IOException {
+		forPng("test_png/");
+	}
 
 	/**
 	 * @throws IOException
 	 */
 	public static void jpeg() throws IOException {
-		forJpeg(KOL_JPEG,METHOD.STRING_ONE);
+		forJpeg(METHOD.STRING_ONE);
 		println("Diagonal one method");
-		forJpeg(KOL_JPEG, METHOD.DIAGONAL_ONE);
+		forJpeg(METHOD.DIAGONAL_ONE);
 		println("column one method");
-		forJpeg(KOL_JPEG, METHOD.COLUMN_ONE);
+		forJpeg(METHOD.COLUMN_ONE);
 	}
 
 	public static void print(Object arg) {
@@ -72,5 +103,20 @@ public class Main extends Analysis {
 	public static void printf(int x) {
 		System.out.printf("Value: %x \n", x);
 	}
+	public static void saveTxtLastBitAllPicture() {
+		FileDirectory file = new FileDirectory();
+		String folder = "Android/PocketStego/";
+		ArrayList<String> listName = new ArrayList<>();
+		try {
+			listName = file.get(folder);
+			for (String name : listName) {
+				println(name);
+				saveTxtOnlyLastBit(name, folder);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 }

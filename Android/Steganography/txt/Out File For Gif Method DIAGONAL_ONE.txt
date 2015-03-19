@@ -1,0 +1,3 @@
+Average Correlation for IMG_20150126_002509.PNG for image = 0.4809027777777778
+Average Correlation for test1.PNG for image = 0.6694724996606521
+Average coefficient from 3 images = 0.38345842581281

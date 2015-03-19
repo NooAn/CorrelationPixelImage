@@ -1,0 +1,2 @@
+Average Correlation test12.png image = 0.6909703560277534
+Average coefficient from 2 images = 0.3454851780138767
