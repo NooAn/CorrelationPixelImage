@@ -27,12 +27,12 @@ public class Main extends Analysis {
 		// } catch (IOException e) {
 		// e.printStackTrace();
 		// }
-		//saveTxtOnlyLastBit("2", "2");
+		saveTxtOnlyLastBit("2", "2");
 //		replaceLastBitTwoImage();
 		//pngCorrelationAll();
         
-        MD5 md5 = new MD5();                                        
-        System.out.println(md5.getHash("qwert123")); 
+     //   MD5 md5 = new MD5();                                        
+      //  System.out.println(md5.getHash("qwert123")); 
 	}
 
 	/**

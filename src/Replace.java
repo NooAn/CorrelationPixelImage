@@ -37,7 +37,7 @@ public class Replace {
 			}	
 			Main.println(i);
 		}
-		Analysis.savePicurePng(imageNew, "newTestBlc.png"); 
+	//	Analysis.savePicurePng(imageNew, "newTestBlc.png"); 
 	}
 
 	public ArrayList<Byte> byteList(BufferedImage img) {

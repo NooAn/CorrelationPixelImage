@@ -148,9 +148,9 @@ public class Analysis {
 			throws IOException {
 
 		PrintWriter pw;
-		pw = new PrintWriter(new File("test_png/test1.txt"));
+		pw = new PrintWriter(new File("testEm.txt"));
 		BufferedImage img = null;
-		img = ImageIO.read(new File("test_png/test1.png"));
+		img = ImageIO.read(new File("testEm.png"));
 
 		Main.print("Prossecing... into " + folder + name);
 
