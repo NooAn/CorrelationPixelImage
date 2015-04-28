@@ -20,14 +20,14 @@ public class Main extends Analysis {
 		// try {
 		// println("Start");
 		// // bmp();
-		// // jpeg();
-		// // gif();
-		// // jpegStego();
-		// // saveJpegOnlyLastBit();
+//		 jpeg();
+		//// gif();
+		//// jpegStego();
+		 saveJpegOnlyLastBlueBit("qw.jpg");
 		// } catch (IOException e) {
-		// e.printStackTrace();
+		// 		e.printStackTrace();
 		// }
-		saveTxtOnlyLastBit("2", "2");
+//	saveTxtOnlyLastBit("2", "2");
 //		replaceLastBitTwoImage();
 		//pngCorrelationAll();
         

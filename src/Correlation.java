@@ -18,7 +18,7 @@ public class Correlation {
 		double sumAverageCorrelation = 0;
 		Main.println("Processing Image " + index + "  Height = " + height
 				+ " Width= " + width + "");
-		//Main.print(img.getRGB(width, height));
+		//Main.print(img.getRGB(width, height)); //Корреляция по компоненте Blue
 		for (int i = 0; i < height; i++) {
 			ArrayList<Integer> bit = new ArrayList<>();
 			for (int j = 0; j < width; j++) {
@@ -81,7 +81,7 @@ public class Correlation {
 		pw.close();
 	}
 /**
- * Функция возвращает последний бит пикселя
+ * Функция возвращает последний бит пикселя (FF FF FF FF) компонетны Blue
  * @param pix
  * @return int last bit
  */

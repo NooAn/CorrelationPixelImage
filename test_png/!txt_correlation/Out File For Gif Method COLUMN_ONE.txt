@@ -1,6 +1,8 @@
-Average Correlation newTest.png for image = 0.6932552404124422
-Average Correlation newTestBlc.png for image = 0.6932552404124422
-Average Correlation test1.png for image = 0.6932552404124422
-Average Correlation test1bl.png for image = 0.6959420541023676
-Average Correlation test1blc.png for image = 0.8660607014952632
-Average coefficient from 8 images = 0.4552210596043697
+Average Correlation 1.PNG for image = 0.7106638652148463
+Average Correlation IMG_20150126_002509.PNG for image = 0.6764184319894061
+Average Correlation rope.PNG for image = 0.6977793812648985
+Average Correlation test1.PNG for image = 0.6931123731370727
+Average Correlation дорога.PNG for image = 0.8069757705779582
+Average Correlation книга.PNG for image = 0.721671253343552
+Average Correlation платье.PNG for image = 0.6960097217288317
+Average coefficient from 7 images = 0.7146615424652236

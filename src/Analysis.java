@@ -110,22 +110,24 @@ public class Analysis {
 		correlation.close();
 	}
 
-	protected static void saveJpegOnlyLastBit(String name) throws IOException {
+	protected static void saveJpegOnlyLastBlueBit(String name) throws IOException {
 		BufferedImage img = null;
-		img = ImageIO.read(new File(name));
+		img = ImageIO.read(new File("test_png/"+name));
 		int height = img.getHeight();
 		int width = img.getWidth();
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
 				int pix = img.getRGB(i, j);
-				if (Correlation.convertInt(pix) == 0)
-					img.setRGB(i, j, 65534);
+				if (Correlation.convertInt(pix) != 0)
+					img.setRGB(i, j, 0);
 				else
-					img.setRGB(i, j, 0); // Изменяем цвет в зависимости от
+					img.setRGB(i, j,  0b000011110000000000000000001111 ); // Изменяем цвет в зависимости от
 											// младшего бита!
 			}
 		}
-		savePicureJpeg(img, "LastBIT" + name);
+		System.out.print(0b1111111111111111111111111111100);
+	//	savePicureJpeg(img, "testJpeg"+name);
+		savePicurePng(img, "test"+name);
 	}
 
 	public static void savePicture(String format, BufferedImage image,
