@@ -23,7 +23,7 @@ public class Main extends Analysis {
 //		 jpeg();
 		//// gif();
 		//// jpegStego();
-		 saveJpegOnlyLastBlueBit("qw.jpg");
+		// saveJpegOnlyLastBlueBit("qw.jpg");
 		// } catch (IOException e) {
 		// 		e.printStackTrace();
 		// }
@@ -31,13 +31,15 @@ public class Main extends Analysis {
 //		replaceLastBitTwoImage();
 		//pngCorrelationAll();
         
-     //   MD5 md5 = new MD5();                                        
+     //   MD5 md5 = new MD5();                               
+		new MethodBl().checkMethodCorrelation();
       //  System.out.println(md5.getHash("qwert123")); 
 	}
 
 	/**
 	 * @throws IOException
 	 */
+	
 	public static void replaceLastBitTwoImage() throws IOException {
 		Replace replace = new Replace() ;
 		String nameOld="test1.png";
@@ -56,7 +58,6 @@ public class Main extends Analysis {
 		forJpeg(METHOD.DIAGONAL_ONE, STEGO);
 		println("column one method");
 		forJpeg(METHOD.COLUMN_ONE, STEGO);
-
 	}
 
 	/**
@@ -109,7 +110,7 @@ public class Main extends Analysis {
 		ArrayList<String> listName = new ArrayList<>();
 		try {
 			listName = file.get(folder);
-			for (String name : listName) {
+			for (String name : listName) { 
 				println(name);
 				saveTxtOnlyLastBit(name, folder);
 			}
