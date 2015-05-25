@@ -32,10 +32,24 @@ public class Main extends Analysis {
 		//pngCorrelationAll();
         
      //   MD5 md5 = new MD5();                               
-		new MethodBl().checkMethodCorrelation();
+		new MethodBl().method();
       //  System.out.println(md5.getHash("qwert123")); 
+	//	checkCorrelation();
 	}
-
+	
+	public static void checkCorrelation() {
+		int a=2;
+		int b=30;
+		ArrayList<Integer> listY = new ArrayList<Integer>();
+		ArrayList<Integer> listX = new ArrayList<Integer>();
+		for ( int x=2;x<150;x++) {
+			listX.add(x);
+			listY.add(a*x+b);
+		}
+		System.out.println(" Coeficient = "
+				+ new Correlation().calculation(listX, listY));
+		
+	}
 	/**
 	 * @throws IOException
 	 */

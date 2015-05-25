@@ -1,2 +1,0 @@
-Average Correlation 24 for image = 0.9273578990816528
-Average coefficient from 2 images = 0.4636789495408264

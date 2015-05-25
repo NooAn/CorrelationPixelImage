@@ -1,5 +1,0 @@
-Average Correlation for 0 for image = 0.662631495408531
-Average Correlation for 1 for image = 0.904320987654321
-Average Correlation for 2 for image = 0.9046345811051694
-Average Correlation for 3 for image = 0.5414364640883977
-Average coefficient from 4 images = 0.7532558820641049
