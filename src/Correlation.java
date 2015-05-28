@@ -213,7 +213,7 @@ public class Correlation {
 			coefficientCorrelation = 0.1;
 		return coefficientCorrelation;
 	}
-	public double calculation(ArrayList<Integer> x, ArrayList<Integer> y) {
+	public double calculation(ArrayList<Double> x, ArrayList<Double> y) {
 
 		BigDecimal sum_y = new BigDecimal(bigSumAverage(y));
 		BigDecimal sum_x = new BigDecimal(bigSumAverage(x));
@@ -234,35 +234,25 @@ public class Correlation {
 			sumCovXY = sumCovXY.add(buf2.multiply(buf));
 			sumAverageX = sumAverageX.add(x2.subtract(sum_x).pow(2));
 			sumAverageY	= sumAverageY.add(y2.subtract(sum_y).pow(2));
+	//		System.out.println(y2);
 			
 		}
 		BigDecimal cov = sumCovXY;
 		BigDecimal sqrtSum = sqrt(sumAverageY.multiply(sumAverageX), BigDecimal.ROUND_CEILING);
 		//System.out.println("sqrtSum = "+sqrtSum);
-		
-		//System.out.println(cov.doubleValue()/sqrtSum.doubleValue());
-		
-		//coefficientCorrelation = cov.divide(sqrtSum, BigDecimal.ROUND_FLOOR );
-		//System.out.println(sumCovXY.divide(sqrt(sumAverageY.multiply(sumAverageX))).toString()+" = "+sumAverageY.multiply(sumAverageX));
-
 		//System.out.println(coefficientCorrelation+" #");
 		return cov.doubleValue()/sqrtSum.doubleValue();
 		
 	}
-	private String bigSumAverage(ArrayList<Integer> a){
+	
+	private String bigSumAverage(ArrayList<Double> a){
 		BigDecimal s =  new BigDecimal("0");
 		int i=0;
-		for (Integer ar : a){ 
+		for (Double value : a){ 
 			i++;
-			//if ( i==7) break;
-			//System.out.println("ar = "+ar+" Sum ="+s);
-			s = s.add(new BigDecimal(String.valueOf(ar)));
+			s = s.add(new BigDecimal(String.valueOf(value)));
 		}
-		//System.out.println("ar = "+a.size()+" Sum ="+s);
-		double sumA = s.doubleValue() / (double)a.size();
-	  //  double sumA = s.doubleValue() / 6;
-		//System.out.println("!"+String.valueOf(sumA));
-		
+		double sumA = s.doubleValue() / (double)a.size();		
 		return String.valueOf(sumA);
 
 	}
@@ -272,7 +262,7 @@ public class Correlation {
 			s += ar;
 		return s / a.size();
 	}
-	
+
 	public void printFile(String string) {
 		pw.println(string);
 	}

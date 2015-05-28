@@ -34,17 +34,17 @@ public class Main extends Analysis {
      //   MD5 md5 = new MD5();                               
 		new MethodBl().method();
       //  System.out.println(md5.getHash("qwert123")); 
-	//	checkCorrelation();
+		//checkCorrelation();
 	}
 	
 	public static void checkCorrelation() {
 		int a=2;
 		int b=30;
-		ArrayList<Integer> listY = new ArrayList<Integer>();
-		ArrayList<Integer> listX = new ArrayList<Integer>();
+		ArrayList<Double> listY = new ArrayList<Double>();
+		ArrayList<Double> listX = new ArrayList<Double>();
 		for ( int x=2;x<150;x++) {
-			listX.add(x);
-			listY.add(a*x+b);
+			listX.add((double) x);
+			listY.add((double) (a*x+b));
 		}
 		System.out.println(" Coeficient = "
 				+ new Correlation().calculation(listX, listY));
