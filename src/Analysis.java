@@ -8,61 +8,79 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 public class Analysis {
-	public static final String FOLDER_BMP = "image_bmp/";
-	public static final String FOLDER_GIF = "image_gif/";
-	public static final String FOLDER_JPEG = "image_jpg/";
-	public static final String FOLDER_PNG = "image_png/";
-	public static final String STEGO_FOLDER_JPG = "stego_image_jpg/";
+
 	private static BufferedImage img = null;
 	/**
 	 * @throws FileNotFoundException
 	 */
 	private static Correlation correlation;
 
-	public static void forJpeg(METHOD method) throws IOException {
-		calculationJpeg("Out File For JPEG Method " + method.getValue()
-				+ ".txt", method);
+	public static void startThreeMethods(String name, BufferedImage img) {
+		correlation = new Correlation();
+		try {
+			System.out.println("Метод по диагонали\nCoeficient ="+methodForDiagonalOneString(img,name));
+			System.out.println("Метод по столбцу\nCoeficient ="+methodForOneColumn(img, name));
+			System.out.println("Метод по строке\nCoeficient ="+methodForOneString(img, name));
+		} catch(Exception e){
+			e.printStackTrace();
+		} 
+	}
+	public static double methodForOneString(BufferedImage img, String index) {
+		int height = img.getHeight();
+		int width = img.getWidth();
+		double sumAverageCorrelation = 0;
+		for (int i = 0; i < height; i++) {
+			ArrayList<Integer> bit = new ArrayList<>();
+			for (int j = 0; j < width; j++) {
+				int pix = img.getRGB(j, i);
+				bit.add(correlation.convertInt(pix));
+			}
+			double d = correlation.calculationOfCorrelation(bit);
+			sumAverageCorrelation += d;
+		}
+	//	Main.println("Average Correlation " + index + " image = "
+		//		+ sumAverageCorrelation / height);
+
+		return sumAverageCorrelation / height;
 	}
 
-	public static void forJpeg(METHOD method, boolean stego) throws IOException {
-		calculation("Out File For Stego JPEG Method " + method.getValue()
-				+ ".txt", "stego_image_jpg/", method);
+	public static double methodForDiagonalOneString(BufferedImage img, String index) {
+		int height = img.getHeight();
+		int width = img.getWidth();
+		double sumAverageCorrelation = 0;
+		ArrayList<Integer> bit = new ArrayList<>();
+		int pix = 0;
+		int i = 0;
+		int len = 0;
+		if (height < width)
+			len = height;
+		else
+			len = width;
+		for (i = 0; i < len; i++) {
+			pix = img.getRGB(i, i);
+			bit.add(correlation.convertInt(pix));
+		}
+		double d = correlation.calculationOfCorrelation(bit);
+		sumAverageCorrelation += d;
+		return sumAverageCorrelation;
 	}
 
-	public static void forBmp(int kolImage, METHOD method) throws IOException {
-		calculationBmp("Out File For Bmp Method" + method.getValue() + ".txt",
-				kolImage, method);
-	}
+	public static double methodForOneColumn(BufferedImage img, String index) {
+		int height = img.getHeight();
+		int width = img.getWidth();
+		double sumAverageCorrelation = 0;
+		for (int i = 0; i < width; i++) {
+			ArrayList<Integer> bit = new ArrayList<>();
+			for (int j = 0; j < height; j++) {
+				int pix = img.getRGB(i, j);
+				bit.add(Correlation.convertInt(pix));
+			}
+			double d = correlation.calculationOfCorrelation(bit);
+			sumAverageCorrelation += d;
 
-	public static void forGif(int kolImage, METHOD method) throws IOException {
-		calculationGif("Out File For Gif Method " + method.getValue() + ".txt",
-				kolImage, method);
-	}
-
-	public static void forPng(String folder) throws IOException {
-		String outFileName = "Out File For Gif Method ";
-		calculation(outFileName + METHOD.DIAGONAL_ONE + ".txt", folder,
-				METHOD.DIAGONAL_ONE);
-		calculation(outFileName + METHOD.STRING_ONE + ".txt", folder,
-				METHOD.STRING_ONE);
-		calculation(outFileName + METHOD.COLUMN_ONE + ".txt", folder,
-				METHOD.COLUMN_ONE);
-	}
-
-	private static void calculationGif(String string, int kolImage,
-			METHOD method) throws IOException {
-		calculation(string, FOLDER_GIF, method);
-
-	}
-
-	private static void calculationJpeg(String string, METHOD method)
-			throws IOException {
-		calculation(string, FOLDER_JPEG, method);
-	}
-
-	private static void calculationBmp(String string, int kolImage,
-			METHOD method) throws IOException {
-		calculation(string, FOLDER_BMP, method);
+		}
+		double c = sumAverageCorrelation / (width);
+		return c;
 	}
 
 	/**
@@ -74,12 +92,10 @@ public class Analysis {
 	 * @param method
 	 * @throws IOException
 	 */
-	private static void calculation(String outFileName, String folder,
+	private static void calculation(String folder,
 			METHOD method) throws IOException {
 
-		correlation = new Correlation();
 		double sumAverageImage = 0;
-		correlation.openFileOutput(folder+"!txt_correlation/"+ outFileName);
 
 		FileDirectory file = new FileDirectory();
 		ArrayList<String> listName = new ArrayList<>();
@@ -93,82 +109,24 @@ public class Analysis {
 			img = ImageIO.read(new File(folder + name));
 			switch (method) {
 			case DIAGONAL_ONE:
-				sumAverageImage += correlation.methodForDiagonalOneString(img,name);
+				sumAverageImage += methodForDiagonalOneString(img,name);
 				break;
 			case STRING_ONE:
-				sumAverageImage += correlation.methodForOneString(img, name);
+				sumAverageImage += methodForOneString(img, name);
 				break;
 			case COLUMN_ONE:
-				sumAverageImage += correlation.methodForOneColumn(img, name);
+				sumAverageImage += methodForOneColumn(img, name);
 			default:
 			}
 			kolImage++;
 
 		}
-		correlation.printFile("Average coefficient from " + kolImage
+		System.out.print("Average coefficient from " + kolImage
 				+ " images = " + sumAverageImage / kolImage);
-		correlation.close();
 	}
 
-	protected static void saveJpegOnlyLastBlueBit(String name) throws IOException {
-		BufferedImage img = null;
-		img = ImageIO.read(new File("test_png/"+name));
-		int height = img.getHeight();
-		int width = img.getWidth();
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				int pix = img.getRGB(i, j);
-				if (Correlation.convertInt(pix) != 0)
-					img.setRGB(i, j, 0);
-				else
-					img.setRGB(i, j,  0b000011110000000000000000001111 ); // Изменяем цвет в зависимости от
-											// младшего бита!
-			}
-		}
-		System.out.print(0b1111111111111111111111111111100);
-	//	savePicureJpeg(img, "testJpeg"+name);
-		savePicurePng(img, "test"+name);
-	}
 
-	public static void savePicture(String format, BufferedImage image,
-			String name) throws IOException {
-		ImageIO.write(image, format, new File(name));
-	}
 
-	public static void savePicureJpeg(BufferedImage image, String name)
-			throws IOException {
-		ImageIO.write(image, "jpg", new File(name));
-	}
 
-	public static void savePicurePng(BufferedImage image, String name)
-			throws IOException {
-		ImageIO.write(image, "png", new File(name));
-	}
 
-	@SuppressWarnings("resource")
-	protected static void saveTxtOnlyLastBit(String name, String folder)
-			throws IOException {
-
-		PrintWriter pw;
-		pw = new PrintWriter(new File("testEm.txt"));
-		BufferedImage img = null;
-		img = ImageIO.read(new File("testEm.png"));
-
-		Main.print("Prossecing... into " + folder + name);
-
-		int height = img.getHeight();
-		int width = img.getWidth();
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
-				int pix = img.getRGB(i, j);
-				int bit = Correlation.convertInt(pix); // Возвращает послед бит
-				pw.print(bit);
-			}
-			pw.println();
-		}
-		pw.flush();
-		if (pw.checkError())
-			pw.print("Error!");
-		pw.close();
-	}
 }

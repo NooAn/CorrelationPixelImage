@@ -2,58 +2,84 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.imageio.ImageIO;
 
-public class MethodBl {
+public class AlgorithmStegoAnalysis {
 	private final static int BLUE = 0x000000FF;
 	private final static int RED = 0x00FF0000;
 	private final static int GREEN = 0x0000FF00;
 
 	/**
-	 * Основной метод проверки коррелеции между пиксилем и младшими битами
-	 * одного из компонентов RGB
+	 * Метод подсчета корреляции на основе 
+	 * окружения близких пикселей. Выборка X строится по всем пикселям изображения.
+	 * А выборка Y строится по его окружению.
+	 * То есть берутся все соседние пиксели. Таких пикселов будет восемь.
+	 * Считается среднее значение и заносится в Y. Считается корреляция.
+	 * 
+	  @		@	  @
+	  @		X	  @	
+	  @		@	  @
 	 */
-	public static void method() {
-		String folder;
-		// folder="черно-белые без стего/";
-		// folder= "чб стего/";
-		//folder = "stegoPhotoHiddenData/";
-		folder="Lena/";
-		// folder ="test_jpg/";
-
-		ArrayList<String> nameList = new FileDirectory().get(folder);
-		for (String name : nameList) {
-			BufferedImage img = null;
-			try {
-				img = ImageIO.read(new File(folder + name));
-				System.out.println(name);
-				System.out.println("		Работает метод 1 ");
-				checkMethodCorrelationPixel(img);
-				System.out.println("		Работает метод 2 ");
-			//	checkMethodCorrelationWithHelpOneByte(img);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		}
-	}
-
-	public static void checkMethodCorrelationPixel(BufferedImage img) {
+	public static void checkMethodSurroundings(BufferedImage img) {
 		ArrayList<Double> listNumb = getListRGB(img);
-		for (int pos = 1; pos <= 8; pos++) {
-			 ArrayList<Double> listRank = new ArrayList<Double>();
-			 listRank = getListComponent(img, pos);
-			System.out.println(pos + " Coeficient = "
-				+ new Correlation().calculation(listNumb, listRank));
+		ArrayList<Double> listSurroundings =getAverage8Pix(img);
+		System.out.println("	Method Surroundings\nCoeficient = "
+				+ new Correlation().calculation(listNumb, listSurroundings));
+	}
+	private static ArrayList<Double> getAverage8Pix(BufferedImage img) {
+	double sum = 0;
+	double sum1=0, sum2=0, sum3=0;
+	ArrayList<Double> list = new ArrayList<>();
+		for ( int i=1;i<img.getWidth()-1;i++) {
+			for ( int j=1;j<img.getHeight()-1;j++){
+				BigDecimal bigSum = new BigDecimal(0);
+				
+				bigSum = bigSum.add(new BigDecimal(img.getRGB(i-1, j-1)));
+				bigSum = bigSum.add(new BigDecimal(img.getRGB(i, j-1)));
+				bigSum = bigSum.add(new BigDecimal((img.getRGB(i+1, j-1))));
+				bigSum = bigSum.add(new BigDecimal(img.getRGB(i+1, j)));
+				bigSum = bigSum.add(new BigDecimal(img.getRGB(i+1, j+1)));
+				bigSum = bigSum.add(new BigDecimal(img.getRGB(i, j+1)));
+				bigSum = bigSum.add(new BigDecimal(img.getRGB(i-1, j+1)));
+				bigSum = bigSum.add(new BigDecimal(img.getRGB(i-1, j)));
+				bigSum = bigSum.divide(new BigDecimal(8));
+				list.add(bigSum.doubleValue());
+				
+			}
 		}
+		return list;
 	}
 
+/**
+ * 	Выборка X строится по всем пикселям.
+ *  Выборка Y это значение последних пикселов по одной из компоненты RGB.
+ *  Количество последних пикселов перебирается от 1 до 7.
+ *  Подсчитывается корреляция.
+ * @param img графический контейнер
+ */
+	public static void checkMethodCorrelationPixel(BufferedImage img) {
+		ArrayList<Double> x = getListRGB(img);
+		for (int pos = 1; pos <= 7; pos++) {
+			 ArrayList<Double> y = new ArrayList<Double>();
+			 y = getListComponent(img, pos);
+			System.out.println(pos + " lsb Coeficient = "
+				+ new Correlation().calculation(x, y));
+		}
+	}
+/**
+ * Выборка X строится по следующему правилу.
+ *  Каждый пиксель изображения разбивается на три компоненты Red, Green, Blue.
+ *  Берем одну из компонент и заносим ее в X. Выборка Y строится извлечение последних бит из данной компоненты.
+ *  Подсчитывается корреляция.
+ *  В программе это реализовано в методе checkMethodCorrelationWithHelpOneByte
+ * @param img графический контейнер
+ */
 	public static void checkMethodCorrelationWithHelpOneByte(BufferedImage img) {
-	//	System.out.print(getSet(img, BLUE).size());
 		for (int pos = 1; pos <= 7; pos++) {
 			ArrayList<Integer> listByte = new ArrayList<Integer>();
 			ArrayList<Integer> listBit = new ArrayList<Integer>();
@@ -61,7 +87,7 @@ public class MethodBl {
 				listByte.add(d);				
 				listBit.add(convertInBinaryValue(d, pos));
 			}
-			System.out.println(pos + " Coeficient = "
+			System.out.println(pos + " lsb Coeficient = "
 					+ new Correlation().calculation(averageValue(listByte),  averageValue(listBit)));
 		}
 	}
@@ -88,8 +114,8 @@ public class MethodBl {
 	 */
 	public static ArrayList<Double> getListRGB(BufferedImage img) {
 		ArrayList<Double> list = new ArrayList<Double>();
-		for (int i = 0; i < img.getHeight(); i++) {
-			for (int j = 0; j < img.getWidth(); j++) {
+		for (int i = 1; i < img.getHeight()-1; i++) {
+			for (int j = 1; j < img.getWidth()-1; j++) {
 				list.add((double)(Math.abs(img.getRGB(j, i))));
 			}
 		}
@@ -104,13 +130,12 @@ public class MethodBl {
 		for (int i = 0; i < img.getHeight(); i++) {
 			for (int j = 0; j < img.getWidth(); j++) {
 				list.add((double)getNumberComponent(BLUE, img.getRGB(j, i), pos));
-				// System.out.println(img.getRGB(j, i);
 			}
 		}
 		return list;
 	}
 
-	public static HashSet<Integer> getSet(BufferedImage img, int color) {
+	private static HashSet<Integer> getSet(BufferedImage img, int color) {
 		HashSet<Integer> set = new HashSet<Integer>();
 		for (int i = 0; i < img.getHeight(); i++) {
 			for (int j = 0; j < img.getWidth(); j++) {
@@ -141,15 +166,14 @@ public class MethodBl {
 		while (s.length() != 8) {
 			s = "0" + s;
 		}
-		//System.out.println(s+" pos= "+pos);
 		String s2 = s.substring(8 - pos, 8);
 		int n = Integer.parseInt(s2, 2);
 		return n;
 	}
 
-	public static int getByte(int rgb, int color) {
-		return (rgb & color) >>> 0;
-		//return(rgb & 0x00FF0000) >>> 16;
+	private static int getByte(int rgb, int color) {
+		//return (rgb & color) >>> 0;
+		return(rgb & 0x00FF0000) >>> 16;
 		//return(rgb & 0x0000FF00) >>> 8;
 	}
 
