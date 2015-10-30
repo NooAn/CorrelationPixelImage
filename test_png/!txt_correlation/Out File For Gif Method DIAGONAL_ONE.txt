@@ -1,8 +1,0 @@
-Average Correlation for 1.PNG for image = 0.618088780153085
-Average Correlation for IMG_20150126_002509.PNG for image = 0.4809027777777778
-Average Correlation for rope.PNG for image = 0.5102564102564102
-Average Correlation for test1.PNG for image = 0.6694724996606521
-Average Correlation for дорога.PNG for image = 0.49130434782608695
-Average Correlation for книга.PNG for image = 0.7827908731559111
-Average Correlation for платье.PNG for image = 0.5308641975308642
-Average coefficient from 7 images = 0.583382840908684
